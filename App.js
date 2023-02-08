@@ -1,84 +1,66 @@
+import { NavigationContainer }
+    from "@react-navigation/native";
+import { createNativeStackNavigator }
+    from '@react-navigation/native-stack';
+import Manager from './Manager'; // file App cũ
+import {View, Text, Button, Image} from 'react-native';
+const Stack = createNativeStackNavigator();
 
-import { Button, ScrollView, StyleSheet, Text, View, Image, TextInput } from 'react-native';
-import { useState } from 'react';
-
-
-import ProductList from './src/screens/ProductList';
-
-//Ds truyền sang cho ProductList
 const dataProduct = [
-  { id: 1, name: 'tên', desc: 'mô tả ', image: '../../../assets/avt.jpg' },
-  { id: 2, name: 'tên', desc: 'mô tả', image: '../../../assets/avt.jpg' },
-  { id: 3, name: 'tên', desc: 'mô tả', image: '../../../assets/avt.jpg' },
+    { id: 1, name: '123', desc: '123' },
+    { id: 2, name: '456', desc: '456' },
+    { id: 3, name: '789', desc: '789' },
+  
+  ];
 
-];
-
-export default function App() {
-
-
-  const [showHideView, setShowHideView] = useState(false);
-
-
-
-  return (
-
-    <View style={styles.container}>
-      <View style={styles.info}>
-        <Text style={styles.text}>Họ tên: Nguyễn Anh Tuấn</Text>
-        <Text style={styles.text}>MSV: PH27891</Text>
-      </View>
-      {showHideView
-        ?
-        <>
-          <TextInput placeholder='Tên' />
-          <TextInput placeholder='Mô tả' />
-          <TextInput placeholder='Link ảnh' />
-          <View style={styles.button}>
-            <Button title='Hủy' onPress={() => setShowHideView(!showHideView)} />
-            <Button title='lưu' />
-          </View>
-        </>
-
-        :
-
+// Tạo ra thêm 1 màn hình About để quản lý
+const Home = (props) => {
+    const nav = props.navigation;
+    return (<View style={{alignItems: "center"}}>
+        <Image style={{ width: 200, height: 200 }} source={require('./assets/avt.jpg')} />
         <Button
-          title={'Thêm mới'}
-          onPress={() => setShowHideView(!showHideView)}
+            title='Quản lý'
+            onPress={() => nav.navigate(
+                'Quản lý',
+                {list: dataProduct}
+            )}
         />
-      }
-      <View style={styles.list}>
-      <ProductList data={dataProduct} />
-      </View>
+        <Button
+            title='About'
+            onPress={() => nav.navigate(
+                'About',
+                {name: 'Nguyễn Anh Tuấn', MSV: 'PH27891'},
+            )}
+        />
+    </View>);
+};
 
-    </View>
-  );
-}
+const About = (props) => {
+    const route = props.route;
+    const name = route.params.name;
+    const MSV = route.params.MSV;
+    return (<View>
+        <Text>Họ tên: {name}</Text>
+        <Text>MSV: {MSV}</Text>
+        
+    </View>);
+};
 
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    marginTop: 50,
-    backgroundColor: '#fff',
-    margin:20,
-  },
-  info: {
-    marginBottom:15,
-  },
-  text: {
-    fontSize:25,
-  },
-  button: {
-    flex: 0.1,
-    flexDirection: "row",
-    height: 50,
-    justifyContent: "center",
-    bottom: 10,
-  },
-  list: {
-    marginTop:30,
-    borderWidth:2,
-    borderRadius:10,
-    padding: 20,
-  },
-});
+const App = () => {
+    return (
+    <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+                name="Quản lý" component={Manager}
+            />
+            <Stack.Screen
+                name='About' component={About}
+            />
+            <Stack.Screen
+                name='Home' component={Home}
+            />
+        </Stack.Navigator>
+    </NavigationContainer>
+    );
+};
+export default App;
