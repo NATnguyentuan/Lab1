@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import * as React from "react";
 import { View, Text, Image, Button, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -207,5 +207,4 @@ const App = () => {
     </NavigationContainer>
     );
 };
->>>>>>> b5dc93c69a822596f58f544b1d9c82f260e34aae
 export default App;
