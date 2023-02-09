@@ -1,44 +1,45 @@
-import { FlatList, Text, View, StyleSheet, Image } from "react-native";
+import {
+    FlatList,
+    Text,
+    View,
+    StyleSheet,
+    Image
+} from 'react-native';
 
+// component để hiển thị giao diện từng phần tử
 const ProductItem = (props) => {
-    const item = props.item;
-    //tên sp là item.name, giá item.price...
+    const item = props.data;
+    // => tên sp là item.name, giá item.price
     return (
         <>
-            <View style={styles.list}>
-                <Image style={{ width: 60, height: 60, borderRadius: 30, marginBottom: 30 }} source={require('../../../assets/avt.jpg')} />
-                <View style={styles.text}>
-                    <Text>Tên: {item.name}</Text>
-                    <Text>Mô tả: {item.desc}</Text>
-                </View>
-            </View>
+            <Text>Tên món: {item.name}</Text>
+            <Text>Giá: {item.price} VND</Text>
+            <Image source={
+                // {uri: 'https://picsum.photos/50'}
+                require('../../../assets/icon.png')
+            }
+                style={styles.productImage}
+            />
         </>
     );
-};
+}
 
-// export default function ProductList(props) {}
+// export default function ProductList (props) {}
 const ProductList = (props) => {
-    //khi data không được truyền vào thì mặc định là []
+    // Khi data không được truyền vào thì mặc định là []
     const list = props.data || [];
 
     return (
         <FlatList
             data={list}
-            renderItem={({ item }) => <ProductItem item={item} />}
+            renderItem={({item}) => <ProductItem data={item} />}
+            // renderItem={(ts) => <ProductItem {...ts} />}
             keyExtractor={(item) => item.id}
         />
     );
-
 };
 export default ProductList;
 
 const styles = StyleSheet.create({
-    list: {
-        flex: 1,
-        flexDirection: 'row',
-    },
-    text:{
-        marginLeft:20,
-        marginTop: 10,
-    }
+    productImage: {width: 50, height: 50}
 });
